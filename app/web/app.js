@@ -1,19 +1,145 @@
 if (typeof kotlin === 'undefined') {
   throw new Error("Error loading module 'app'. Its dependency 'kotlin' was not found. Please, check whether 'kotlin' is loaded prior to 'app'.");
 }
-if (typeof lib === 'undefined') {
-  throw new Error("Error loading module 'app'. Its dependency 'lib' was not found. Please, check whether 'lib' is loaded prior to 'app'.");
-}
-var app = function (_, Kotlin, $module$lib) {
+var app = function (_, Kotlin) {
   'use strict';
-  var hello = $module$lib.hello;
-  function main() {
-    hello();
+  var replace = Kotlin.kotlin.text.replace_680rmw$;
+  var toDouble = Kotlin.kotlin.text.toDouble_pdl1vz$;
+  var equals = Kotlin.equals;
+  var split = Kotlin.kotlin.text.split_o64adg$;
+  var isBlank = Kotlin.kotlin.text.isBlank_gw00vp$;
+  var StringBuilder_init = Kotlin.kotlin.text.StringBuilder_init_za3lpa$;
+  var ensureNotNull = Kotlin.ensureNotNull;
+  var Regex_init = Kotlin.kotlin.text.Regex_init_61zpoe$;
+  var throwCCE = Kotlin.throwCCE;
+  var Unit = Kotlin.kotlin.Unit;
+  var cleanup;
+  var mulDiv;
+  var paren;
+  function calc(v) {
+    var r = v;
+    while (paren.containsMatchIn_6bul2c$(r)) {
+      var $receiver = r;
+      var regex = paren;
+      var replace_20wsma$result;
+      replace_20wsma$break: do {
+        var match = regex.find_905azu$($receiver);
+        if (match == null) {
+          replace_20wsma$result = $receiver.toString();
+          break replace_20wsma$break;
+        }
+        var lastStart = 0;
+        var length = $receiver.length;
+        var sb = StringBuilder_init(length);
+        do {
+          var foundMatch = ensureNotNull(match);
+          sb.append_ezbsdh$($receiver, lastStart, foundMatch.range.start);
+          sb.append_gw00v9$(ex(foundMatch.groupValues.get_za3lpa$(1)).toString());
+          lastStart = foundMatch.range.endInclusive + 1 | 0;
+          match = foundMatch.next();
+        }
+         while (lastStart < length && match != null);
+        if (lastStart < length) {
+          sb.append_ezbsdh$($receiver, lastStart, length);
+        }
+        replace_20wsma$result = sb.toString();
+      }
+       while (false);
+      r = replace_20wsma$result;
+    }
+    return ex(r);
   }
+  function ex(v) {
+    var v1 = cleanup.replace_x2uqeu$(v, '');
+    var v2 = replace(v1, '-', '+-');
+    var regex = mulDiv;
+    var replace_20wsma$result;
+    replace_20wsma$break: do {
+      var match = regex.find_905azu$(v2);
+      if (match == null) {
+        replace_20wsma$result = v2.toString();
+        break replace_20wsma$break;
+      }
+      var lastStart = 0;
+      var length = v2.length;
+      var sb = StringBuilder_init(length);
+      do {
+        var foundMatch = ensureNotNull(match);
+        sb.append_ezbsdh$(v2, lastStart, foundMatch.range.start);
+        var tmp$ = sb.append_gw00v9$;
+        var tmp$_0 = foundMatch.groupValues;
+        var left = tmp$_0.get_za3lpa$(1);
+        var op = tmp$_0.get_za3lpa$(2);
+        var right = tmp$_0.get_za3lpa$(3);
+        var l = toDouble(replace(left, '+', ''));
+        var r = toDouble(replace(right, '+', ''));
+        tmp$.call(sb, replace((equals(op, '*') ? l * r : l / r).toString(), '-', '+-'));
+        lastStart = foundMatch.range.endInclusive + 1 | 0;
+        match = foundMatch.next();
+      }
+       while (lastStart < length && match != null);
+      if (lastStart < length) {
+        sb.append_ezbsdh$(v2, lastStart, length);
+      }
+      replace_20wsma$result = sb.toString();
+    }
+     while (false);
+    var v3 = replace_20wsma$result;
+    var v4 = replace(v3, '+-', '-');
+    var v5 = split(v4, Kotlin.charArrayOf(43));
+    var tmp$_1;
+    var accumulator = 0.0;
+    tmp$_1 = v5.iterator();
+    while (tmp$_1.hasNext()) {
+      var element = tmp$_1.next();
+      accumulator = accumulator + (isBlank(v) ? 0.0 : toDouble(element));
+    }
+    var v6 = accumulator;
+    return v6;
+  }
+  function main() {
+    app();
+  }
+  function app$lambda(it) {
+    var tmp$, tmp$_0, tmp$_1;
+    if ((Kotlin.isType(tmp$ = it, KeyboardEvent) ? tmp$ : throwCCE()).keyCode !== 13)
+      return;
+    var input = Kotlin.isType(tmp$_0 = it.target, HTMLInputElement) ? tmp$_0 : throwCCE();
+    var v = input.value;
+    (tmp$_1 = document.querySelector('#result')) != null ? (tmp$_1.innerHTML = v + ' = ' + calc(v)) : null;
+    input.value = '';
+    return Unit;
+  }
+  function app() {
+    var tmp$, tmp$_0;
+    (tmp$ = document.querySelector('#base')) != null ? (tmp$.innerHTML = '<input id="input"/><div id="result"><\/div>') : null;
+    (tmp$_0 = document.querySelector('#input')) != null ? (tmp$_0.addEventListener('keyup', app$lambda), Unit) : null;
+  }
+  Object.defineProperty(_, 'cleanup', {
+    get: function () {
+      return cleanup;
+    }
+  });
+  Object.defineProperty(_, 'mulDiv', {
+    get: function () {
+      return mulDiv;
+    }
+  });
+  Object.defineProperty(_, 'paren', {
+    get: function () {
+      return paren;
+    }
+  });
+  _.calc_61zpoe$ = calc;
+  _.ex_61zpoe$ = ex;
   _.main = main;
+  _.app = app;
+  cleanup = Regex_init('[^.\\d-+*\\/]');
+  mulDiv = Regex_init('((?:\\+-)?[.\\d]+)([*\\/])((?:\\+-)?[.\\d]+)');
+  paren = Regex_init('\\(([^()]*)\\)');
   main();
   Kotlin.defineModule('app', _);
   return _;
-}(typeof app === 'undefined' ? {} : app, kotlin, lib);
+}(typeof app === 'undefined' ? {} : app, kotlin);
 
 //# sourceMappingURL=app.js.map
