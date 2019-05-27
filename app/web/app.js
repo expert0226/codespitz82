@@ -15,3 +15,5 @@ var app = function (_, Kotlin, $module$lib) {
   Kotlin.defineModule('app', _);
   return _;
 }(typeof app === 'undefined' ? {} : app, kotlin, lib);
+
+//# sourceMappingURL=app.js.map
