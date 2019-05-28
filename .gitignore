@@ -42,11 +42,8 @@ node_modules/
 .rpt2_cache/
 libraries/tools/kotlin-test-nodejs-runner/lib/
 local.properties
-.gitignore
 .idea/
-build.gradle
 gradle/
 gradlew
 gradlew.bat
-settings.gradle
 /.gitignore
