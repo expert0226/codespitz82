@@ -44,11 +44,9 @@ libraries/tools/kotlin-test-nodejs-runner/lib/
 local.properties
 .gitignore
 .idea/
-app/
 build.gradle
 gradle/
 gradlew
 gradlew.bat
-lib/
 settings.gradle
 /.gitignore
